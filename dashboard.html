@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard Analista</title>
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h2 id="welcome"></h2>
+
+<input type="file" id="fileInput">
+
+<div class="kpis">
+    <div class="card">
+        <h3>OPP Mes</h3>
+        <p id="oppMes">0</p>
+    </div>
+
+    <div class="card">
+        <h3>Tasa Conversión</h3>
+        <p id="tasa">0%</p>
+    </div>
+
+    <div class="card">
+        <h3>Leads Trabajados</h3>
+        <p id="leads">0</p>
+    </div>
+
+    <div class="card">
+        <h3>Cumplimiento</h3>
+        <p id="cumplimiento">0%</p>
+    </div>
+
+    <div class="card">
+        <h3>Comisión</h3>
+        <p id="comision">$0</p>
+    </div>
+</div>
+
+<table id="tablaDatos"></table>
+
+<script src="data.js"></script>
+</body>
+</html>

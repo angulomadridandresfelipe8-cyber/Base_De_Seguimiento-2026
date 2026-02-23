@@ -1,0 +1,41 @@
+body {
+    font-family: Arial;
+    background: #f4f6f9;
+    text-align: center;
+}
+
+.login-box {
+    width: 300px;
+    margin: 100px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+}
+
+input {
+    width: 90%;
+    padding: 8px;
+    margin: 5px;
+}
+
+button {
+    padding: 8px 20px;
+    background: #1f4e79;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.kpis {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.card {
+    background: white;
+    margin: 10px;
+    padding: 20px;
+    width: 180px;
+    border-radius: 10px;
+}
