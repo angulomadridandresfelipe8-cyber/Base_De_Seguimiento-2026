@@ -1,19 +1,16 @@
-function register() {
-    let user = document.getElementById("newUser").value;
-    let pass = document.getElementById("newPass").value;
+function aplicarFiltro() {
+    const mes = document.getElementById("filtroMes").value;
+    const anio = document.getElementById("filtroAnio").value;
 
-    localStorage.setItem(user, pass);
-    alert("Usuario creado");
-}
+    const datosFiltrados = datos.filter(item => {
+        const fecha = new Date(item.fecha);
+        return (
+            fecha.getMonth() == mes &&
+            fecha.getFullYear() == anio
+        );
+    });
 
-function login() {
-    let user = document.getElementById("usuario").value;
-    let pass = document.getElementById("password").value;
-
-    if(localStorage.getItem(user) === pass) {
-        localStorage.setItem("activo", user);
-        window.location = "dashboard.html";
-    } else {
-        alert("Datos incorrectos");
-    }
+    actualizarKPIs(datosFiltrados);
+    actualizarGraficos(datosFiltrados);
+    actualizarRanking(datosFiltrados);
 }

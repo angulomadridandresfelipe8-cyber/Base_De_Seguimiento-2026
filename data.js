@@ -1,6 +1,17 @@
 let usuario = localStorage.getItem("activo");
 document.getElementById("welcome").innerText = "Bienvenido " + usuario;
 
+// Sample data for testing
+let datos = [
+    {
+        nombre: "Andrés",
+        leads: 10,
+        oportunidades: 5,
+        cierres: 2,
+        fecha: "2026-02-15"
+    }
+];
+
 document.getElementById("fileInput").addEventListener("change", function(e) {
     let file = e.target.files[0];
     let reader = new FileReader();
