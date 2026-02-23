@@ -14,3 +14,13 @@ function aplicarFiltro() {
     actualizarGraficos(datosFiltrados);
     actualizarRanking(datosFiltrados);
 }
+
+function actualizarGraficos(data) {
+    // Placeholder for updating graphs
+    console.log("Updating graphs with", data.length, "records");
+}
+
+function actualizarRanking(data) {
+    // Placeholder for updating ranking table
+    console.log("Updating ranking with", data.length, "records");
+}

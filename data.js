@@ -2,13 +2,34 @@ let usuario = localStorage.getItem("activo");
 document.getElementById("welcome").innerText = "Bienvenido " + usuario;
 
 // Sample data for testing
-let datos = [
+const datos = [
     {
         nombre: "Andrés",
-        leads: 10,
-        oportunidades: 5,
-        cierres: 2,
-        fecha: "2026-02-15"
+        leads: 20,
+        oportunidades: 10,
+        cierres: 5,
+        fecha: "2026-01-15"
+    },
+    {
+        nombre: "Sara",
+        leads: 18,
+        oportunidades: 9,
+        cierres: 4,
+        fecha: "2026-01-20"
+    },
+    {
+        nombre: "Miguel",
+        leads: 25,
+        oportunidades: 12,
+        cierres: 6,
+        fecha: "2026-02-10"
+    },
+    {
+        nombre: "Valentina",
+        leads: 15,
+        oportunidades: 8,
+        cierres: 3,
+        fecha: "2026-02-18"
     }
 ];
 
@@ -29,15 +50,16 @@ document.getElementById("fileInput").addEventListener("change", function(e) {
 });
 
 function procesarDatos(data) {
+    datos = data;
+    actualizarKPIs(datos);
+}
 
-    let oppMes = data.length;
-
-    let efectivos = data.filter(d => d.Estado === "Efectivo").length;
-    let total = data.length;
-
-    let tasa = (efectivos / total) * 100;
-
-    let leads = data.filter(d => d.Tipo === "Lead").length;
+function actualizarKPIs(data) {
+    let oppMes = data.reduce((sum, d) => sum + d.oportunidades, 0);
+    let efectivos = data.reduce((sum, d) => sum + d.cierres, 0);
+    let total = oppMes;
+    let tasa = total > 0 ? (efectivos / total) * 100 : 0;
+    let leads = data.reduce((sum, d) => sum + d.leads, 0);
 
     // META
     let metaOpp = 29;
@@ -82,3 +104,6 @@ function calcularComision(base, cump) {
         return base + (base * 1.5);
     }
 }
+
+// Load initial data
+actualizarKPIs(datos);
