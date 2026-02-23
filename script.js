@@ -24,3 +24,10 @@ function actualizarRanking(data) {
     // Placeholder for updating ranking table
     console.log("Updating ranking with", data.length, "records");
 }
+
+window.onload = function() {
+    const hoy = new Date();
+    document.getElementById("filtroMes").value = hoy.getMonth();
+    document.getElementById("filtroAnio").value = hoy.getFullYear();
+    aplicarFiltro();
+};
