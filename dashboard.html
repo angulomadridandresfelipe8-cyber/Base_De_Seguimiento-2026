@@ -4,15 +4,65 @@
 <meta charset="UTF-8">
 <title>Dashboard Analista</title>
 
-<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
-<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+body{
+    font-family: Arial;
+    background:#f4f6f9;
+    margin:20px;
+}
+
+h2{
+    margin-bottom:20px;
+}
+
+.filtros-container{
+    display:flex;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+select,button{
+    padding:8px;
+    border-radius:5px;
+    border:1px solid #ccc;
+}
+
+button{
+    background:#1f4e79;
+    color:white;
+    cursor:pointer;
+}
+
+.kpis{
+    display:flex;
+    gap:20px;
+    margin-bottom:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:8px;
+    width:200px;
+    text-align:center;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+canvas{
+    background:white;
+    padding:20px;
+    border-radius:8px;
+}
+</style>
 </head>
+
 <body>
 
-<h2 id="welcome"></h2>
+<h2>Dashboard Comercial</h2>
 
-<input type="file" id="fileInput">
-
+<!-- 🔥 FILTROS -->
 <div class="filtros-container">
     <select id="filtroMes">
         <option value="0">Enero</option>
@@ -37,35 +87,108 @@
     <button onclick="aplicarFiltro()">Aplicar</button>
 </div>
 
+<!-- KPIs -->
 <div class="kpis">
     <div class="card">
-        <h3>OPP Mes</h3>
-        <p id="oppMes">0</p>
+        <h3>Leads</h3>
+        <p id="kpiLeads">0</p>
     </div>
 
     <div class="card">
-        <h3>Tasa Conversión</h3>
-        <p id="tasa">0%</p>
+        <h3>Oportunidades</h3>
+        <p id="kpiOpp">0</p>
     </div>
 
     <div class="card">
-        <h3>Leads Trabajados</h3>
-        <p id="leads">0</p>
+        <h3>Cierres</h3>
+        <p id="kpiCierres">0</p>
     </div>
 
     <div class="card">
-        <h3>Cumplimiento</h3>
-        <p id="cumplimiento">0%</p>
-    </div>
-
-    <div class="card">
-        <h3>Comisión</h3>
-        <p id="comision">$0</p>
+        <h3>Conversión</h3>
+        <p id="kpiConversion">0%</p>
     </div>
 </div>
 
-<table id="tablaDatos"></table>
+<canvas id="grafico" height="100"></canvas>
 
-<script src="data.js"></script>
+<script>
+
+// 🔥 DATOS DE EJEMPLO
+const datos = [
+    {nombre:"Andrés", leads:20, oportunidades:10, cierres:5, fecha:"2026-01-10"},
+    {nombre:"Andrés", leads:15, oportunidades:8, cierres:3, fecha:"2026-02-15"},
+    {nombre:"Sara", leads:18, oportunidades:9, cierres:4, fecha:"2026-01-20"},
+    {nombre:"Miguel", leads:25, oportunidades:12, cierres:6, fecha:"2026-02-05"}
+];
+
+let chart;
+
+// 🔥 FILTRO
+function aplicarFiltro(){
+
+    const mes = document.getElementById("filtroMes").value;
+    const anio = document.getElementById("filtroAnio").value;
+
+    const filtrados = datos.filter(d => {
+        const fecha = new Date(d.fecha);
+        return fecha.getMonth() == mes && fecha.getFullYear() == anio;
+    });
+
+    actualizarKPIs(filtrados);
+}
+
+// 🔥 ACTUALIZAR KPIS
+function actualizarKPIs(lista){
+
+    let totalLeads = 0;
+    let totalOpp = 0;
+    let totalCierres = 0;
+
+    lista.forEach(d => {
+        totalLeads += d.leads;
+        totalOpp += d.oportunidades;
+        totalCierres += d.cierres;
+    });
+
+    let conversion = totalOpp > 0 ? ((totalCierres/totalOpp)*100).toFixed(1) : 0;
+
+    document.getElementById("kpiLeads").innerText = totalLeads;
+    document.getElementById("kpiOpp").innerText = totalOpp;
+    document.getElementById("kpiCierres").innerText = totalCierres;
+    document.getElementById("kpiConversion").innerText = conversion + "%";
+
+    actualizarGrafico(totalLeads,totalOpp,totalCierres);
+}
+
+// 🔥 GRAFICO
+function actualizarGrafico(leads,opp,cierres){
+
+    if(chart) chart.destroy();
+
+    const ctx = document.getElementById("grafico").getContext("2d");
+
+    chart = new Chart(ctx,{
+        type:"bar",
+        data:{
+            labels:["Leads","Oportunidades","Cierres"],
+            datasets:[{
+                label:"Rendimiento",
+                data:[leads,opp,cierres]
+            }]
+        }
+    });
+}
+
+// 🔥 CARGA AUTOMATICA MES ACTUAL
+window.onload = function(){
+    const hoy = new Date();
+    document.getElementById("filtroMes").value = hoy.getMonth();
+    document.getElementById("filtroAnio").value = hoy.getFullYear();
+    aplicarFiltro();
+}
+
+</script>
+
 </body>
 </html>
