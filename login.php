@@ -1,28 +1,70 @@
 <?php
-include("conexion.php");
+session_start();
 
-if($_POST){
-    $correo = $_POST['correo'];
-    $password = $_POST['password'];
+if(isset($_POST['ingresar'])){
+    $_SESSION['nombre'] = $_POST['nombre'];
+    $_SESSION['apellido'] = $_POST['apellido'];
 
-    $sql = $conexion->prepare("SELECT * FROM usuarios WHERE correo=?");
-    $sql->execute([$correo]);
-    $usuario = $sql->fetch();
-
-    if($usuario && password_verify($password, $usuario['password'])){
-        $_SESSION['usuario_id'] = $usuario['id'];
-        $_SESSION['nombre'] = $usuario['nombre_completo'];
-        $_SESSION['equipo'] = $usuario['equipo'];
-
-        header("Location: dashboard.php");
-    } else {
-        echo "Datos incorrectos";
-    }
+    header("Location: dashboard.php");
+    exit();
 }
 ?>
 
-<form method="POST">
-    <input type="email" name="correo" placeholder="Correo">
-    <input type="password" name="password" placeholder="Contraseña">
-    <button type="submit">Ingresar</button>
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login Comercial</title>
+<style>
+body{
+    margin:0;
+    font-family:Segoe UI;
+    background:linear-gradient(135deg,#0f172a,#1e293b);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+.card{
+    background:white;
+    padding:40px;
+    border-radius:14px;
+    width:320px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.3);
+}
+h2{
+    text-align:center;
+    margin-bottom:20px;
+}
+input{
+    width:100%;
+    padding:10px;
+    margin-bottom:15px;
+    border-radius:8px;
+    border:1px solid #ccc;
+}
+button{
+    width:100%;
+    padding:12px;
+    background:#2563eb;
+    border:none;
+    color:white;
+    font-weight:bold;
+    border-radius:8px;
+    cursor:pointer;
+}
+button:hover{
+    background:#1e40af;
+}
+</style>
+</head>
+<body>
+
+<form method="POST" class="card">
+<h2>Ingreso Analista</h2>
+<input type="text" name="nombre" placeholder="Nombre" required>
+<input type="text" name="apellido" placeholder="Apellido" required>
+<button name="ingresar">Ingresar</button>
 </form>
+
+</body>
+</html>
