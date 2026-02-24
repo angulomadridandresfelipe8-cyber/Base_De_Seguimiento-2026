@@ -180,7 +180,7 @@ oportunidades=datos.filter(d=>d.Estado==="Oportunidad").length;
 cierres=datos.filter(d=>d.Estado==="Cierre").length;
 
 actualizar();
-}
+}eg
 });
 
 function actualizar(){
