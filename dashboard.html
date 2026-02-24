@@ -84,6 +84,14 @@ canvas{
         <option value="2025">2025</option>
     </select>
 
+    <select id="filtroNombre">
+        <option value="">Todos los analistas</option>
+        <option value="Andrés">Andrés</option>
+        <option value="Sara">Sara</option>
+        <option value="Miguel">Miguel</option>
+        <option value="Valentina">Valentina</option>
+    </select>
+
     <button onclick="aplicarFiltro()">Aplicar</button>
 </div>
 
@@ -129,10 +137,11 @@ function aplicarFiltro(){
 
     const mes = document.getElementById("filtroMes").value;
     const anio = document.getElementById("filtroAnio").value;
+    const nombre = document.getElementById("filtroNombre").value;
 
     const filtrados = datos.filter(d => {
         const fecha = new Date(d.fecha);
-        return fecha.getMonth() == mes && fecha.getFullYear() == anio;
+        return fecha.getMonth() == mes && fecha.getFullYear() == anio && (nombre === "" || d.nombre === nombre);
     });
 
     actualizarKPIs(filtrados);
