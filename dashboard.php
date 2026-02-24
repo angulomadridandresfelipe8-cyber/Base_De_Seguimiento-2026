@@ -151,6 +151,12 @@ let oportunidades=0;
 let cierres=0;
 let meta=0;
 
+const nombreSesion = "<?php echo $nombre; ?>";
+const apellidoSesion = "<?php echo $apellido; ?>";
+
+const mesActual = new Date().getMonth(); 
+const añoActual = new Date().getFullYear();
+
 const ctx=document.getElementById('grafica').getContext('2d');
 
 const grafica=new Chart(ctx,{
@@ -171,16 +177,48 @@ const reader=new FileReader();
 reader.readAsBinaryString(e.target.files[0]);
 
 reader.onload=function(e){
+
 const workbook=XLSX.read(e.target.result,{type:'binary'});
 const hoja=workbook.Sheets[workbook.SheetNames[0]];
 const datos=XLSX.utils.sheet_to_json(hoja);
 
-leads=datos.length;
-oportunidades=datos.filter(d=>d.Estado==="Oportunidad").length;
-cierres=datos.filter(d=>d.Estado==="Cierre").length;
+leads=0;
+oportunidades=0;
+cierres=0;
+
+datos.forEach(d=>{
+
+if(!d.Fecha) return;
+
+const fecha = new Date(d.Fecha);
+const mesRegistro = fecha.getMonth();
+const añoRegistro = fecha.getFullYear();
+
+if(
+d.Nombre == nombreSesion &&
+d.Apellido == apellidoSesion &&
+mesRegistro == mesActual &&
+añoRegistro == añoActual
+){
+
+leads++;
+
+if(d.Estado === "Oportunidad"){
+oportunidades++;
+}
+
+if(d.Estado === "Cierre"){
+cierres++;
+}
+
+}
+
+});
 
 actualizar();
+
 }
+
 });
 
 function actualizar(){
