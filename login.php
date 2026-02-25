@@ -4,7 +4,6 @@ session_start();
 if(isset($_POST['ingresar'])){
     $_SESSION['nombre'] = $_POST['nombre'];
     $_SESSION['apellido'] = $_POST['apellido'];
-
     header("Location: dashboard.php");
     exit();
 }
@@ -13,48 +12,44 @@ if(isset($_POST['ingresar'])){
 <!DOCTYPE html>
 <html>
 <head>
-<title>Login Comercial</title>
+<meta charset="UTF-8">
+<title>Login ERP Comercial</title>
 <style>
 body{
-    margin:0;
-    font-family:Segoe UI;
-    background:linear-gradient(135deg,#0f172a,#1e293b);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
+margin:0;
+font-family:Segoe UI;
+background:linear-gradient(135deg,#0f172a,#1e293b);
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
 }
 .card{
-    background:white;
-    padding:40px;
-    border-radius:14px;
-    width:320px;
-    box-shadow:0 8px 20px rgba(0,0,0,0.3);
-}
-h2{
-    text-align:center;
-    margin-bottom:20px;
+background:white;
+padding:40px;
+border-radius:16px;
+width:320px;
+box-shadow:0 10px 25px rgba(0,0,0,0.3);
 }
 input{
-    width:100%;
-    padding:10px;
-    margin-bottom:15px;
-    border-radius:8px;
-    border:1px solid #ccc;
+width:100%;
+padding:10px;
+margin-bottom:15px;
+border-radius:8px;
+border:1px solid #ccc;
 }
 button{
-    width:100%;
-    padding:12px;
-    background:#2563eb;
-    border:none;
-    color:white;
-    font-weight:bold;
-    border-radius:8px;
-    cursor:pointer;
+width:100%;
+padding:12px;
+background:#2563eb;
+border:none;
+color:white;
+font-weight:bold;
+border-radius:8px;
+cursor:pointer;
 }
-button:hover{
-    background:#1e40af;
-}
+button:hover{background:#1e40af;}
+h2{text-align:center;}
 </style>
 </head>
 <body>
