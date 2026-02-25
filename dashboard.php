@@ -23,9 +23,7 @@ body{margin:0;font-family:Segoe UI;background:#f1f5f9;}
 width:230px;height:100vh;background:#0f172a;
 position:fixed;color:white;padding:20px;
 }
-.sidebar h2{font-size:18px;}
 .content{margin-left:250px;padding:30px;}
-.header{font-size:24px;font-weight:bold;margin-bottom:20px;}
 .card{
 background:white;padding:20px;border-radius:14px;
 box-shadow:0 4px 12px rgba(0,0,0,0.06);
@@ -36,16 +34,22 @@ display:grid;
 grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
 gap:20px;
 }
-.kpi{font-size:30px;font-weight:bold;color:#0f172a;}
+.kpi{font-size:28px;font-weight:bold;}
 .progress{background:#e5e7eb;border-radius:10px;height:14px;margin-top:10px;}
 .progress-bar{
-height:100%;background:linear-gradient(90deg,#2563eb,#1e40af);
-width:0%;border-radius:10px;
+height:100%;
+background:linear-gradient(90deg,#2563eb,#1e40af);
+width:0%;
+border-radius:10px;
 }
 select,input{padding:8px;border-radius:6px;border:1px solid #ccc;}
 button{
-padding:8px 16px;background:#2563eb;
-border:none;color:white;border-radius:8px;cursor:pointer;
+padding:8px 16px;
+background:#2563eb;
+border:none;
+color:white;
+border-radius:8px;
+cursor:pointer;
 }
 button:hover{background:#1e40af;}
 </style>
@@ -53,7 +57,7 @@ button:hover{background:#1e40af;}
 <body>
 
 <div class="sidebar">
-<h2>ERP Comercial</h2>
+<h3>ERP Comercial</h3>
 <p>Analista:</p>
 <strong><?php echo $nombre." ".$apellido; ?></strong>
 <br><br>
@@ -62,7 +66,7 @@ button:hover{background:#1e40af;}
 
 <div class="content">
 
-<div class="header">Dashboard Comercial 2026</div>
+<h2>Dashboard Comercial 2026</h2>
 
 <div class="card">
 <h3>Filtro de Mes</h3>
@@ -110,6 +114,7 @@ let op=document.createElement("option");
 op.value=i;op.text=m;
 selector.appendChild(op);
 });
+
 selector.value=new Date().getMonth();
 selector.onchange=recalcular;
 
@@ -159,7 +164,6 @@ if(d.Estado=="Cierre")cierres++;
 }
 
 if(mes==mesSel-1)leadsMesAnterior++;
-
 }
 });
 
@@ -170,6 +174,7 @@ function actualizar(prev){
 document.getElementById("leads").innerText=leads;
 document.getElementById("oportunidades").innerText=oportunidades;
 document.getElementById("cierres").innerText=cierres;
+
 let conv=leads>0?((cierres/leads)*100).toFixed(1):0;
 document.getElementById("conversion").innerText=conv+"%";
 
