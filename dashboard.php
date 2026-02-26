@@ -12,7 +12,7 @@ $apellido=$_SESSION['apellido'];
 <html>
 <head>
 <meta charset="UTF-8">
-<title>ERP Analista 2026</title>
+<title>ERP Comercial 2026</title>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
