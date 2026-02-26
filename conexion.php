@@ -16,10 +16,17 @@ try {
     // para compatibilidad con código existente que usa $conexion
     $conexion = $pdo;
 } catch (PDOException $e) {
-    // Fallo en la conexión: muestra mensaje corto (evita exponer credenciales)
+    // Fallo en la conexión: registrar y mostrar detalle sólo si se solicita
+    $errorMessage = $e->getMessage();
+    error_log('DB connection error: ' . $errorMessage);
     http_response_code(500);
-    echo 'Error en la conexión a la base de datos';
-    error_log('DB connection error: ' . $e->getMessage());
+
+    // Si visitas la página con ?debug_db=1 verás el mensaje completo (temporal)
+    if (isset($_GET['debug_db']) && $_GET['debug_db'] === '1') {
+        echo 'Error en la conexión a la base de datos: ' . htmlspecialchars($errorMessage);
+    } else {
+        echo 'Error en la conexión a la base de datos';
+    }
     exit();
 }
 
