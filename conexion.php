@@ -2,7 +2,7 @@
 // Conexión PDO centralizada
 // Corrige el DSN para incluir 'host=' y exporta tanto $conexion como $pdo
 try {
-    $dsn = 'mysql:host=dashboard2026.infinityfreeapp.com;dbname=epiz_12345678_dashboard2026;charset=utf8mb4';
+    $dsn = 'mysql:host=sql301.infinityfree.com;dbname=epiz_12345678_dashboard2026;charset=utf8mb4';
     $username = 'if0_41237493';
     $password = 'Andresxd46';
 
