@@ -13,7 +13,7 @@ if(isset($_POST['ingresar'])){
 <html>
 <head>
 <meta charset="UTF-8">
-<title>🚀 ERP Comercial 2026 - Login</title>
+<title>🚀 ERP Analista 2026 - Login</title>
 <style>
 * {
     margin: 0;
