@@ -4,8 +4,22 @@ if(!isset($_SESSION['nombre'])){
 header("Location: login.php");
 exit();
 }
-$nombre=$_SESSION['nombre'];
-$apellido=$_SESSION['apellido'];
+$nombre = $_SESSION['nombre'];
+$apellido = $_SESSION['apellido'];
+
+// obtener lista de analistas válidos desde la base de datos
+require_once 'conexion.php';
+$analistas = [];
+try {
+    $stmt = $conexion->query(
+        "SELECT DISTINCT Analista FROM datagrid
+         WHERE Analista IS NOT NULL AND Analista <> ''
+           AND Analista NOT LIKE '%prueba%'"
+    );
+    $analistas = $stmt->fetchAll(PDO::FETCH_COLUMN);
+} catch (Exception $e) {
+    // si ocurre un error, dejamos la lista vacía y el JS lo manejará
+}
 ?>
 
 <!DOCTYPE html>
@@ -309,7 +323,7 @@ button:hover {
 <div class="card">
 <h3>📁 Cargar Datos Excel</h3>
 <input type="file" id="excelFile" accept=".xlsx,.xls">
-<p style="color: #666; font-size: 14px; margin-top: 10px;">Selecciona un archivo Excel con columnas: Nombre, Apellido, Fecha, Estado</p>
+<p style="color: #666; font-size: 14px; margin-top: 10px;">Selecciona un archivo Excel con columnas: Nombre, Apellido, Fecha, Estado. Sólo se incluirán los analistas válidos del equipo; filas de prueba se omiten automáticamente.</p>
 </div>
 
 <div class="grid">
@@ -397,6 +411,14 @@ let leadsMesActual = 0, leadsMesAnterior = 0;
 
 const nombreSesion = "<?php echo $nombre;?>";
 const apellidoSesion = "<?php echo $apellido;?>";
+
+// lista de analistas válidos (se usa para descartar filas de prueba)
+const validAnalistas = <?php echo json_encode($analistas); ?> || [];
+
+// helper: nombre completo usado en las filas del excel
+function nombreCompleto(fila) {
+    return `${fila.Nombre || ''}`.trim() + ' ' + `${fila.Apellido || ''}`.trim();
+}
 
 const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
 const selector = document.getElementById("selectorMes");
@@ -524,8 +546,16 @@ document.getElementById('excelFile').addEventListener('change', function(e) {
                 }
             }
 
+            // filter out prueba/test/analistas no deseados
+            if (validAnalistas.length > 0) {
+                datosGlobal = datosGlobal.filter(r => {
+                    const nc = nombreCompleto(r).trim();
+                    return validAnalistas.includes(nc);
+                });
+            }
+
             recalcular();
-            alert('✅ Datos cargados correctamente');
+            alert('✅ Datos cargados correctamente (se excluyeron filas de prueba)');
         } catch (error) {
             alert('❌ Error al procesar el archivo Excel');
             console.error(error);

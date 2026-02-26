@@ -7,6 +7,20 @@ if(isset($_POST['ingresar'])){
     header("Location: dashboard.php");
     exit();
 }
+
+// obtener lista de analistas reales para mostrar en el login
+require_once 'conexion.php';
+$analistas = [];
+try {
+    $stmt = $conexion->query(
+        "SELECT DISTINCT Analista FROM datagrid
+         WHERE Analista IS NOT NULL AND Analista <> ''
+           AND Analista NOT LIKE '%prueba%'"
+    );
+    $analistas = $stmt->fetchAll(PDO::FETCH_COLUMN);
+} catch (Exception $e) {
+    // ignora errores, login seguirá funcionando
+}
 ?>
 
 <!DOCTYPE html>
@@ -251,14 +265,31 @@ button:active {
     <button type="submit" name="ingresar">🚀 Iniciar Sesión</button>
 </form>
 
+    <script>
+    // permitir seleccionar usuario de la lista para autocompletar el formulario
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.demo-users .user').forEach(function(div) {
+            div.addEventListener('click', function() {
+                const nombres = this.textContent.trim().split(' ');
+                const apellido = nombres.pop();
+                const nombre = nombres.join(' ');
+                document.getElementById('nombre').value = nombre;
+                document.getElementById('apellido').value = apellido;
+            });
+        });
+    });
+    </script>
 <div class="demo-users">
-<h3>👥 Usuarios de Prueba</h3>
-<p>Usa cualquiera de estos usuarios para probar el sistema:</p>
-<div class="user">Andrés Fangulom</div>
-<div class="user">Sara González</div>
-<div class="user">Miguel Rodríguez</div>
-<div class="user">Valentina López</div>
-<div class="user">Carlos Martínez</div>
+</div>
+<?php if (!empty($analistas)): ?>
+<div class="demo-users">
+    <h3>👥 Analistas registrados</h3>
+    <p>Selecciona tu nombre para iniciar sesión:</p>
+    <?php foreach ($analistas as $a): ?>
+        <div class="user"><?php echo htmlspecialchars($a); ?></div>
+    <?php endforeach; ?>
+</div>
+<?php endif; ?>
 </div>
 
 <div class="footer">
